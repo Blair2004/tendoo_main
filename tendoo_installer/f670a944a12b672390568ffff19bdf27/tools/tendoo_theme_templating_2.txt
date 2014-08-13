@@ -1,0 +1,55 @@
+head_php, body_php, header_php, footer_php TEMPLATING
+0 ---------------------------------------------------
+					GLOBAL
+-----------------------------------------------------
+{tendoo_version}				=	<?php echo get('core_version');?>
+{site_name}						=	<?php echo $options[0]['SITE_NAME'];?>
+{site_logo}						=	<?php echo $options[0]['SITE_LOGO'];?>
+{menu_loops_start}				=	<?php foreach($controllers as $c)	{ ?>
+{menu_loops_end}				=	<?php } ?>
+{menu_active_start}				=	<?php if($c['PAGE_CNAME'] == $this->instance->url->controller())	{ ?>
+{menu_active_else}				=	<?php } else { ?>
+{menu_active_end}				=	<?php } ?>
+{menu_islink_start}				=	<?php if($c['PAGE_MODULES'] == '#LINK#')	{ ?>
+{menu_islink_else}				=	<?php } else { ?>
+{menu_islink_end}				=	<?php } ?>
+{menu_submenu}					=	<?php $this->instance->tendoo->getControllerSubmenu($c);?>
+{menu_loop_cname}				=	<?php echo ucwords($c['PAGE_NAMES']);?>
+{menu_loop_link}				=	<?php echo $c['PAGE_LINK'];?>
+{menu_loop_name}				=	<?php echo $c['PAGE_NAME'];?>
+{menu_loop_title}				=	<?php echo $c['PAGE_TITLE'];?>
+1 ---------------------------------------------------
+					HEAD_PHP
+-----------------------------------------------------
+{head_definition}		=	<script>
+								var site_url	=	'<?php echo $this->url->site_url();?>';
+								var base_url	=	'<?php echo $this->url->main_url();?>';
+							</script>
+							<?php echo $this->file->css_load();?>
+							<?php echo $this->file->js_load();?>   
+--------------------------------------------------------------------------------------------
+{head_title}			=	<?php echo get_page('title');?>
+{head_keywords}		=	<?php echo $this->tendoo->getKeywords();?>
+{head_description}	=	<?php echo $this->tendoo->getDescription();?>
+2 ----------------------------------------------------
+					HEADER_PHP
+------------------------------------------------------
+{header_usermenu}					=	<?php echo $this->users_global->getUserMenu(); 	?>
+{header_margin}					=	<?php echo $this->users_global->isConnected() ? 'style="margin-top:30px"' : '';?>
+
+3 -----------------------------------------------------
+					BODY_PHP
+-------------------------------------------------------
+{body_head}				=		<?php echo $head;?>
+{body_module_content}	=		<?php echo $module_content;?>
+{body_footer}			=		<?php echo $footer;?>
+4 -----------------------------------------------------
+					FOOTER_PHP
+-------------------------------------------------------
+{footer_widgets}		=	<?php $theme->parseBottomWidgets();?>
+    
+
+
+
+
+                            

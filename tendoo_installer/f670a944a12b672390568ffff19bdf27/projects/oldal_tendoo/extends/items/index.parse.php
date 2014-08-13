@@ -1,0 +1,9 @@
+<section>
+	{index_parse_caroussel}
+    {index_parse_ontopcontent}
+    {index_parse_lastestelement}
+    {index_parse_aboutus}
+    {index_parse_tabshowcase}
+    {index_parse_textlist}
+    {index_parse_partners}
+</section>

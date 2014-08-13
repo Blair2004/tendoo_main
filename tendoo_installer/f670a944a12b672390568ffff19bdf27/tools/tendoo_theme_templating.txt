@@ -1,0 +1,207 @@
+Tendoo Theme Templating
+=======================>
+GLOBAL DATA (variables globales, disponible en tout temps)
+	{site_name}						// <?php echo $options[0]['SITE_NAME'];?>
+	{site_logo}						// <?php echo $options[0]['SITE_LOGO'];?>
+	{page_title}					// <?php echo get_page('title');?>
+	{page_description}				// <?php echo $this->tendoo->getDescription();?>
+	{page_keywords}					// <?php echo $this->tendoo->getKeywords();?>
+    {widget_right}					// <?php echo $this->parseRightWidget();?>
+    	{widget_right_isset_start}	// <?php if(count($this->ttRightWidgets) > 0){?>
+        {widget_right_isset_end}	// <?php }?>
+        {widget_right_loop_start}	// <?php foreach($this->ttRightWidgets as $w)		{?>
+        {widget_right_loop_end}		// <?php }?>
+        {widget_right_loop_title}	// <?php echo $w['TITLE'];?>
+        {widget_right_loop_content}	// <?php echo $w['CONTENT'];?>
+    {widget_left}					// <?php echo $this->parseLeftWidget();?>
+    {widget_bottom}					// <?php echo $this->parseBottomWidget();?>
+	{user_isconnected_start}		//	
+	{user_isconnected_else}
+	{user_isconnected_end}
+    {user_name}						// <?php echo $this->users_global->current('NAME');?>
+	{user_pseudo}					// <?php echo $this->users_global->current('PSEUDO');?>
+    {user_email}					//	<?php echo $this->users_global->current('EMAIL');?>
+	{user_sex}						// 
+    {pagination}					// <?php $this->parsePagination();?>
+    	{pagination_isset_start}	// <?php if(is_array($this->pagination_datas['innerLink']))	{?>
+        {pagination_isset_else}		// <?php }	else  {?>
+        {pagination_isset_end)		// <?php }?>
+        {pagination_loop_start}		// <?php foreach($this->pagination_datas['innerLink'] as $p){?>
+        {pagination_loop_end}		// <?php } ?>
+        {pagination_loop_active_start}		// <?php if($p['state'] == 'active'){?>
+        {pagination_loop_active_else}		// <?php }	else {?>
+        {pagination_loop_active_end}		// <?php }?>
+    {notice}						// <?php $this->parseNotice();?>
+    	{notice_isset_start}		// <?php if(strlen(output('notice')) > 0)	{	?>
+        {notice_isset_end}			// <?php	}?>
+        {notice_content}			// <?php output('notice');?>
+    {form}							// <?php $this->parseForm();?>
+    	{form_isset_start}			// <?php	if(count($this->currentForm) > 0)		{		?>
+        {form_isset_end}			// <?php	}	?>
+    	{form_type}					//	<?php echo $this->formType;?>
+        {form_enctype}				// <?php echo $this->formEnctype;?>
+        {form_action}				// <?php echo $this->formAction;?>
+        {form_loop}					// <?php foreach($this->currentForm as $c){	echo $c;}?>
+=======================>
+INDEX_PARSE
+	{index_parseCaroussel}			// affiche le caroussel_
+	{index_parseAboutUs}			// affiche texte descriptif, "A propos de nous"_
+	{index_parseOnTopContent}		// affiche les éléménts au top_
+	{index_parseGalleryShowCase}	// affiche une gallerie
+	{index_parseTabShowCase}		// affiche les éléments sous forme de dossier_
+	{index_parseTextList}			// affiche une liste de texte_
+	{index_parsePartners}			// affiche information (texte et images) relatives aux partenaires ou assimilés_
+========================>
+	{index_parsecaroussel}
+		{index_caroussel_start} 	// <?php if(count($this->carousselElement) > 0)	{ ?>
+		{index_caroussel_end} 		// <?php } ?>
+		{index_caroussel_loop_start}	// <?php foreach($this->carousselElement as $c)	{	?>
+		{index_caroussel_loop_end}		// <?php }	?>
+		{index_caroussel_loop_title} // <?php echo $c['LINK'];?>
+		{index_caroussel_loop_image} // <?php echo $c['IMAGE'];?> Image du Caroussel
+		{index_caroussel_loop_title} // <?php echo $c['TITLE'];?>
+		{index_caroussel_loop_text[limit]} <?php echo word_limiter(strip_tags($c['CONTENT']),$limit);?> //
+	INDEX_PARSEABOUTUS
+		{index_aboutus_isset_start} 	// <?php if(isset($this->indexAboutUs))	{ ?>
+		{index_aboutus_isset_end} 		// <?php } ?>
+		{index_aboutus_title}			// <?php echo $this->indexAboutUsTitle;?>
+		{index_aboutus_text} 			// <?php echo ($this->indexAboutUs);?>
+	INDEX_LASTESTELEMENTS
+    	{index_le_start}				// <?php if(count($this->lastestElements) > 0){		?>
+        {index_le_end}					// <?php 	}	?>
+        {index_loop_start}				// <?php foreach($this->lastestElements as $c)	{ $date	=	$this->instance->date->time($c['DATETIME'],TRUE);	?>
+        {index_loop_end}				// <?php }	?>
+        {index_loop_link}				// <?php echo $c['LINK'];?>
+        {index_loop_thumb}				// <?php echo $c['THUMB'];?>
+        {index_loop_title}				// <?php echo $c['TITLE'];?>
+        {index_loop_datetime}			// <?php echo $c['DATETIME'];?>
+        {index_loop_date_day}			// <?php echo $date['d'];?>
+        {index_loop_date_hour}			// <?php echo $date['h'];?>
+        {index_loop_date_sec}			// <?php echo $date['i'];?>
+        {index_loop_date_year}			// <?php echo $date['y'];?>
+        {index_loop_date_monthfull}		// <?php echo $date['month'];?>
+        {index_loop_date_month}			// <?php echo $date['m'];?>
+        {index_loop_content[limit]}		// <?php echo word_limiter(strip_tags($c['CONTENT']),$limit);?>
+	INDEX_ONTOPCONTENT
+		{index_otc_isset_start} 		// <?php if(count($this->onTopContent) > 0){ ?>
+		{index_otc_isset_end} 			// <?php } ?>
+		{index_otc_title} 				// <?php $this->onTopContentTitle;?>
+		{index_otc_loop_start} 			// <?php foreach($this->onTopContent as $c)	{ ?>
+		{index_otc_loop_end} 			// <?php } ?>
+		{index_otc_loop_link} 			// <?php echo $c['LINK'];?>
+		{index_otc_loop_title} 			// <?php echo $c['TITLE'];?>
+		{index_otc_loop_thumb} 			// <?php echo $c['THUMB'];?>
+		{index_otc_loop_content[limit]} // <?php echo word_limiter($c['CARTEGORY'],$limit);?>
+		{index_otc_loop_datetime} 		// <?php echo $c['DATETIME'];?>
+		// Author
+		{index_otc_loop_author_pseudo} 	// <?php echo $c['AUTHOR']['PSEUDO'];?>
+		{index_otc_loop_author_id} 		// <?php echo $c['AUTHOR']['ID'];?>
+		{index_otc_loop_author_email} 	// <?php echo $c['AUTHOR']['EMAIL'];?>
+		{index_otc_loop_author_thumb} 	// <?php echo $c['AUTHOR']['THUMB'];?> // Tendoo 0_9_8
+        {index_otc_loop_author_profilelink}	// 
+		// category
+		{index_otc_loop_category_loop_start} 	// Boucle des catégories
+		{index_otc_loop_category_loop_end} 		// Boucle des catégories fin
+		{index_otc_loop_category_link} 			// <?php echo $category_child['LINK'];?>
+		{index_otc_loop_category_text} 			// <?php echo $category_child['TEXT'];?>
+	INDEX_GALLERYSHOWCASE
+		{index_gsc_isset_start}			// <?php if(count($this->galleryGroup) > 0) { ?>
+		{index_gsc_isset_end}			// <?php } ;?>
+		{index_gsc_title}				// <?php echo $this->galleryShowCaseTitle;?>
+		{index_gsc_loop_start}			//<?php  foreach($this->galleryGroup as $g)    { ?>
+		{index_gsc_loop_end}			//<?php  } ?>
+		{index_gsc_loop_title}			// $['TITLE']
+		{index_gsc_loop_full}			// $['FULL']
+		{index_gsc_loop_image}			// $['IMAGE']
+	INDEX_TABSHOWCASE
+		{index_tsc_isset_start}				// <?php		if(count($this->tabShowCase) > 0)		{		?>
+		{index_tsc_isset_end}				// <?php		}		?>
+		{index_tsc_head_loop_start}			// <?php	foreach($this->tabShowCase as $s)	{;?>
+		{index_tsc_head_loop_end}			// <?php 		}		?>
+		{index_tsc_head_loop_title}			// <?php echo $s['TITLE'];?>
+		{index_tsc_head_loop_content}		// <?php echo $s['CONTENT'];?>
+		{index_tsc_body_loop_start}			// <?php	foreach($this->tabShowCase as $s)	{;?>
+		{index_tsc_body_loop_end}			// <?php 		}		?>
+		{index_tsc_body_loop_text}			// <?php echo $s['CONTENT'];?>
+		{index_tsc_body_loop_title}			// <?php echo $s['TITLE'];?>
+	INDEX_LISTTEXT
+		{index_lt_isset_start}				// <?php if(count($this->listText) > 0)		{		?>
+		{index_lt_isset_end}				// <?php }		?>
+		{index_lt_title}					// <?php echo $this->textListTitle;?>
+		{index_lt_loop_start}				// <?php foreach($this->listText as $t)	{	?>
+		{index_lt_loop_end}					// <?php }	?>
+		{index_lt_loop_title}				// <?php echo $t['TITLE'];?>
+		{index_lt_loop_link}				// <?php echo $t['LINK'];?>
+		{index_lt_loop_text[limit]}			// <?php echo word_limiter($t['CONTENT'],$limit);?>
+	INDEX_PARTNERS
+		{index_partners_isset_start}			// <?php		if(isset($this->partners_content))		{		?>
+		{index_partners_isset_end}			// <?php		}		?>
+		{index_partners_title}				// <?php echo $this->partners_title;?>
+		{index_partners_text}				// <?php echo $this->partners_content;?>
+BLOG_PARSE
+===================================>
+	{blog_single}							// <?php $this->parseSingleBlogPost();?>
+	{blog_post}								// <?php $this->parseBlogPost();?>
+    BLOG_POST
+    	{blog_post_isset_start}				// <?php		if(count($this->blogPost) > 0)		{		?>
+        {blog_post_isset_else}				// <?php	}		else if($this->blogPost === FALSE)		{			?>
+        {blog_post_isset_end}				// <?php		}		?>
+        {blog_post_loop_start}				// <?php foreach($this->blogPost as $p){	?>
+		{blog_post_loop_end}				// <?php 		}		?>
+		{blog_post_loop_link}				// <?php echo $p['LINK'];?>
+		{blog_post_loop_title}				// <?php echo $p['TITLE'];?>
+		{blog_post_loop_full}				// <?php echo $p['FULL'];?>
+		{blog_post_loop_thumb}				// <?php echo $p['THUMB'];?>
+		{blog_post_loop_content[limit]}		// <?php echo word_limiter(strip_tags($p['CONTENT']),50);?>
+		{blog_post_loop_category_loop_start}	// Category looping
+        {blog_post_loop_category_loop_end}		// Category looping
+        {blog_post_loop_category_loop_link}		// <?php echo $p['CATEGORY_LINK'];?>
+		{blog_post_loop_category_loop_title}	// <?php echo $p['CATEGORY_TITLE'];?>
+		{blog_post_loop_author_pseudo}			// <?php echo $p['AUTHOR']['PSEUDO'];?>
+		{blog_post_loop_author_id}				// <?php echo $p['AUTHOR']['ID'];?>
+		{blog_post_loop_author_email}			// <?php echo $p['AUTHOR']['EMAIL'];?>
+		{blog_post_loop_author_profilelink}		// <?php echo $this->instance->url->site_url(array('account','profile',$p['AUTHOR']['PSEUDO']));?>
+	BLOG_SINGLE
+    	{blog_single_isset_start}			// <?php if(count($this->singleBlogPost) > 0)		{	?>
+        {blog_single_isset_else}			// <?php		}		else if($this->singleBlogPost	===	false)		{			?>
+        {blog_single_isset_end}				// <?php 		}		?>
+        {blog_single_full}					// <?php echo $this->singleBlogPost['FULL'];?>
+        {blog_single_title}					// <?php echo $this->singleBlogPost['TITLE'];?>
+        {blog_single_time}					// <?php echo $this->instance->date->time($this->singleBlogPost['TIMESTAMP']);?>
+        {blog_single_category_loop_start}	// Category Looping Start
+        {blog_single_category_loop_end}		// end category looping_
+        {blog_single_author_profilelink}	// <?php echo $this->instance->url->site_url(array('account','profile',$this->singleBlogPost['AUTHOR']['PSEUDO']));?>
+        {blog_single_author_pseudo}			// <?php echo $this->singleBlogPost['AUTHOR']['PSEUDO'];?>
+        {blog_single_author_id}				// <?php echo $this->singleBlogPost['AUTHOR']['ID'];?>
+        {blog_single_author_email}			// <?php echo $this->singleBlogPost['AUTHOR']['EMAIL'];?>
+        {blog_single_content}				// <?php echo $this->singleBlogPost['CONTENT'];?>
+        {blog_single_timestamp}				// <?php echo  $this->singleBlogPost['TIMESTAMP'];?>
+        {blog_single_comments_total}		// <?php echo $this->TT_SBP_comments;?>
+        {blog_single_comments_isset_start}	// <?php	if($this->TT_SBP_comments > 0)			{;?>
+        {blog_single_comments_isset_end}	// <?php	};?>
+        {blog_single_comments_loop_start}	// <?php $commentID	=	1;	foreach($this->SBP_comments as $s)	{;?>
+		{blog_single_comments_loop_end}	// <?php };?>
+        {blog_single_comments_loop_id}		// <?php echo $commentID;?>
+        {blog_single_comments_loop_author_pseudo}	// <?php echo $s['AUTHOR']['PSEUDO'] ;?>OR <?php echo $s['AUTHOR'] ;?>
+        {blog_single_comments_loop_author_id}	// <?php echo $s['AUTHOR']['ID'] ;?>OR <?php NULL ;?>
+        {blog_single_comments_loop_author_email}	// <?php echo $s['AUTHOR']['EMAIL'] ;?>OR <?php NULL ;?>
+        {blog_single_comments_loop_timestamp}	// <?php echo $s['TIMESTAMP'];?>
+        {blog_single_comments_loop_content}	// <?php echo $s['CONTENT'];?>
+===========================================>
+UNIQUE_PARSE
+	{unique_parse}							// <?php $this->parseUnique();?>
+CONTACT_PARSE
+	{contact_parse}							// <?php $this->parseContact();?>
+    	{contact_title}						// <?php echo $this->contactTitle;?>
+    	{contact_details_isset_start}		// <?php if(count($this->contactAddressItems) > 0)	{	?>    	
+        {contact_details_isset_end}			// <?php }	?>    	
+        {contact_form}						// <?php $this->parseForm($this->contactHeader['ACTION'],$this->contactHeader['ENCTYPE'],$this->contactHeader['METHOD']);?>
+        {contact_details_loop_start} 		// 
+        {contact_details_loop_end}
+        {contact_details_loop_type}			// <?php echo $c['TYPE'];?>
+        {contact_details_loop_content}		// <?php echo $c['CONTENT'];?>
+        
+    	
+    
+        
+		

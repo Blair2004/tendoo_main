@@ -1,0 +1,1 @@
+	tendoo.notice.alert('Le contrôleur à été correctement modifié.');
