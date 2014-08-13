@@ -28,10 +28,7 @@
 		if(get_core_vars( 'tendoo_core_update' ) !== FALSE)
 		{
 			$ttNotice	=	0;
-			foreach(get_core_vars( 'tendoo_core_update' ) as $global_notices)
-			{
-				$ttNotice +=	count($global_notices);
-			}
+			$ttNotice	=	count( get_core_vars( 'tendoo_core_update' ) );
 		?>
 			<nav class="nav-primary hidden-xs">
                 <ul class="nav">					
@@ -55,18 +52,16 @@
 										</header> 
 										<div class="list-group"> 
 											<?php
-											foreach(get_core_vars( 'tendoo_core_update' ) as $global_notices)
+											foreach(get_core_vars( 'tendoo_core_update' ) as $unique_notice)
 											{
-												foreach($global_notices as $unique_notice)
-												{
 												?>
 												<a href="<?php echo $unique_notice['link'];?>" class="media list-group-item">
 													<?php 
-													if($unique_notice['thumb'] != false)
+													if( ( $thumb	=	return_if_array_key_exists( 'thumb' , $unique_notice ) ) != false)
 													{
 													?>
 													<span class="pull-left thumb-sm"> 
-														<img src="<?php echo $unique_notice['thumb'];?>" alt="image" class="img-circle"> 
+														<img src="<?php echo $thumb;?>" alt="image" class="img-circle"> 
 													</span> 
 													<?php
 													}
@@ -77,7 +72,6 @@
 													</span> 
 												</a>
 												<?php
-												}
 											}
 											?>
 										</div>
