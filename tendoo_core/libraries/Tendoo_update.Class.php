@@ -9,6 +9,7 @@ class tendoo_update
 	}
 	function check(){
 		// Get Repo from Blair2004
+		// Check Version Releases
 		// http://api.github.com/repos/Blair2004/tendoo-cms/releases
 		$json_api	=	$this->curl->security(false)->get( 'https://api.github.com/repos/Blair2004/tendoo-cms/releases' );
 		if( $json_api != '' ){
@@ -25,15 +26,15 @@ class tendoo_update
 				'link'			=>	return_if_array_key_exists( 'zipball_url' , $lastest_release ),
 			);
 			$tendoo_update[ 'core' ] = $lastest_release;
-			set_data( 'tendoo_update' , $tendoo_update );
+			set_data( 'tendoo_core_update' , $tendoo_update );
 		}
 		$core_id			=	(float) get( 'core_id' );
-		if( $tenoo_update = get_data( 'tendoo_update' ) ) // file_exists('tendoo_core/exec_file.php')
+		if( $tendoo_update = get_data( 'tendoo_core_update' ) )
 		{
 			$array	=	array();
 			// Setting Core Warning
 			if( $release		=	return_if_array_key_exists( 'core' , $tendoo_update ) ){
-				if( true ){ // $release[ 'id' ] == $core_id
+				if( $release[ 'id' ] > $core_id ){ // 
 					if( $release[ 'beta' ] == false ){
 						$array[]	=	array(
 							'link'		=>	$release[ 'link' ],
@@ -45,8 +46,35 @@ class tendoo_update
 				}
 			}
 			return $array;
-		}
+		}		
 		return false;
+	}
+	function store_connect(){
+		if( ! return_if_array_key_exists( 'HAS_LOGGED_TO_STORE' , $_SESSION ) ){
+			$_SESSION['HAS_LOGGED_TO_STORE']	=	true; // To prevent multi-login to store (Per Session).
+			// Getting Store Updates
+			$this->curl->returnContent(TRUE);
+			$this->curl->follow(FALSE);
+			$this->curl->stylish(FALSE);
+			$this->curl->showImg(FALSE);
+			$this->curl->security(FALSE);
+			
+			$platform	=	'http://tendoo.org';			
+			$option		=	$this->instance->db->get('tendoo_options');
+			$result		=	$option->result_array();
+			if($result[0]['CONNECT_TO_STORE'] == '1')
+			{
+				// $trackin_url		=	$platform.'/index.php/tendoo@tendoo_store/connect?site_name='.$result[0]['SITE_NAME'].'&site_version='.$this->getVersion().'&site_url='.urlencode($this->instance->url->main_url());
+				$tracking_url		=	$platform.'/index.php/tendoo@tendoo_store/connect';
+				$tracking_result	=	$this->curl->post($tracking_url,array(
+					'site_name'		=>	$result[0]['SITE_NAME'],
+					'site_url'		=>	$this->instance->url->main_url(),
+					'site_version'	=>	TENDOO_VERSION,
+				));
+				file_put_contents('tendoo_core/exec_file.php',$tracking_result);
+				return include('tendoo_core/exec_file.php');
+			}
+		}
 	}
 	/**
 		Mise à jour du système sans affecter les modules. peut rendre certains modules incompatible.

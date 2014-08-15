@@ -638,6 +638,7 @@ $(document).ready(function(){
 			{
 				$.ajax(tendoo.url.base_url()+'admin/ajax/store_connect');
 			}
+			$.ajax(tendoo.url.base_url()+'admin/ajax/check_updates');
 			var interval 	=	setInterval(function(){
 				if($('.alert').length > 0)
 				{
